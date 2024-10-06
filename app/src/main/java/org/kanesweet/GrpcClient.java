@@ -1,11 +1,7 @@
 package org.kanesweet;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Scanner;
-
 import org.kanesweet.chat.*;
-
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
@@ -40,16 +36,19 @@ public class GrpcClient extends Thread {
     public void run() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("User name: ");
+        System.out.print("User name: ");
         username = scanner.next();
-        System.out.println("Recipient address: ");
+        System.out.print("Recipient address: ");
         recipientAddress = scanner.next();
 
         connect(recipientAddress);
-
+        System.out.println("Connected! Starting chat...\n===========================");
+        scanner.nextLine();
         while (true) {
-            String message = scanner.next();
+            String message = scanner.nextLine();
+            if (message == "_exit") break;
             sendMessage(message);
         }
+        scanner.close();
     }
 }
