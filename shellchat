@@ -1,5 +1,0 @@
-#!/usr/bin/bash
-
-make 1> /dev/null
-# java -cp app/build/classes/java/main/org/kanesweet App
-/usr/bin/env /usr/lib/jvm/java-11-openjdk-amd64/bin/java @/tmp/cp_cu5yyhez3tj9j8yqvxh0aq51b.argfile org.kanesweet.App
