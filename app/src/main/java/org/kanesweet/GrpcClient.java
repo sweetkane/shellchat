@@ -8,10 +8,24 @@ import io.grpc.StatusRuntimeException;
 
 public class GrpcClient extends Thread {
 
+    Scanner scanner;
     private ManagedChannel channel;
     private ChatServiceGrpc.ChatServiceBlockingStub blockingStub;
     private String username;
     private String recipientAddress;
+
+    GrpcClient(Scanner scannerIn) {
+        scanner = scannerIn;
+
+        System.out.print("User name: ");
+        username = scanner.next();
+        System.out.print("Recipient address: ");
+        recipientAddress = scanner.next();
+
+        connect(recipientAddress);
+        System.out.println("Connected! Starting chat...\n===========================");
+        scanner.nextLine();
+    }
 
     public void connect(String address) {
         channel = ManagedChannelBuilder.forTarget(address)
@@ -34,21 +48,10 @@ public class GrpcClient extends Thread {
     }
 
     public void run() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("User name: ");
-        username = scanner.next();
-        System.out.print("Recipient address: ");
-        recipientAddress = scanner.next();
-
-        connect(recipientAddress);
-        System.out.println("Connected! Starting chat...\n===========================");
-        scanner.nextLine();
         while (true) {
             String message = scanner.nextLine();
             if (message == "_exit") break;
             sendMessage(message);
         }
-        scanner.close();
     }
 }
